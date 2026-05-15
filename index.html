@@ -1,0 +1,998 @@
+<!doctype html>
+<html lang="es" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Carles Soler Sanchis · Business / Data Analyst</title>
+    <meta
+      name="description"
+      content="Business & Data Analyst. SQL en BigQuery, automatizaciones con Zapier y Apps Script, modelos predictivos y arquitectura de datos en Airtable."
+    />
+    <meta name="theme-color" content="#08080a" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              ink: {
+                950: "#08080a",
+                900: "#0c0c10",
+                850: "#101015",
+                800: "#15151c",
+                700: "#1c1c25",
+                600: "#26262f",
+                500: "#3a3a44",
+                400: "#6b6b78",
+                300: "#9ea0ad",
+                200: "#c9cad3",
+                100: "#e8e9ee",
+              },
+              accent: {
+                500: "#7c8cff",
+                400: "#a5b0ff",
+                300: "#c2caff",
+              },
+            },
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+            },
+            letterSpacing: {
+              tightest: "-0.04em",
+              tighter2: "-0.025em",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      html,
+      body {
+        background: #08080a;
+      }
+      body {
+        font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+        font-feature-settings: 'cv11', 'ss01', 'ss03';
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+
+      /* Subtle dot grid background */
+      .bg-dotgrid {
+        background-image: radial-gradient(
+          rgba(255, 255, 255, 0.045) 1px,
+          transparent 1px
+        );
+        background-size: 22px 22px;
+      }
+
+      /* Top hero gradient glow */
+      .hero-glow {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .hero-glow::before,
+      .hero-glow::after {
+        content: '';
+        position: absolute;
+        border-radius: 9999px;
+        filter: blur(120px);
+        opacity: 0.55;
+      }
+      .hero-glow::before {
+        width: 620px;
+        height: 620px;
+        top: -240px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: radial-gradient(
+          circle at center,
+          rgba(124, 140, 255, 0.55),
+          rgba(124, 140, 255, 0) 70%
+        );
+      }
+      .hero-glow::after {
+        width: 460px;
+        height: 460px;
+        bottom: -200px;
+        right: -120px;
+        background: radial-gradient(
+          circle at center,
+          rgba(180, 120, 255, 0.35),
+          rgba(180, 120, 255, 0) 70%
+        );
+      }
+
+      /* Pointer-following spotlight on hero */
+      .spotlight {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          600px circle at var(--mx, 50%) var(--my, 30%),
+          rgba(124, 140, 255, 0.08),
+          transparent 60%
+        );
+        pointer-events: none;
+        transition: background 0.15s ease;
+      }
+
+      /* Card hover glow */
+      .card {
+        position: relative;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0)) ,
+          #0c0c10;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        transition: border-color 0.25s ease, transform 0.25s ease;
+      }
+      .card:hover {
+        border-color: rgba(124, 140, 255, 0.35);
+      }
+      .card::after {
+        content: '';
+        position: absolute;
+        inset: -1px;
+        border-radius: inherit;
+        padding: 1px;
+        background: radial-gradient(
+          400px circle at var(--mx, 50%) var(--my, 0%),
+          rgba(124, 140, 255, 0.35),
+          transparent 40%
+        );
+        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+        pointer-events: none;
+      }
+      .card:hover::after {
+        opacity: 1;
+      }
+
+      /* Section eyebrow */
+      .eyebrow {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #9ea0ad;
+      }
+      .eyebrow .dot {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 9999px;
+        background: #7c8cff;
+        box-shadow: 0 0 12px rgba(124, 140, 255, 0.8);
+        margin-right: 10px;
+        vertical-align: middle;
+      }
+
+      /* Hairline separators */
+      .hairline {
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.09) 20%,
+          rgba(255, 255, 255, 0.09) 80%,
+          transparent
+        );
+      }
+
+      /* Gradient text */
+      .grad-text {
+        background: linear-gradient(180deg, #ffffff 0%, #b9bcd0 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      /* Reveal animation */
+      .reveal {
+        opacity: 0;
+        transform: translateY(14px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+        will-change: opacity, transform;
+      }
+      .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Tag pill */
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        border-radius: 9999px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.02);
+        font-size: 12.5px;
+        color: #c9cad3;
+        white-space: nowrap;
+      }
+
+      /* Subtle scrollbar */
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #1c1c25;
+        border-radius: 9999px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #26262f;
+      }
+
+      /* Focus rings */
+      a:focus-visible,
+      button:focus-visible {
+        outline: 2px solid rgba(124, 140, 255, 0.55);
+        outline-offset: 3px;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+
+  <body class="bg-ink-950 text-ink-100 antialiased">
+    <!-- NAV -->
+    <header
+      class="fixed inset-x-0 top-0 z-40 backdrop-blur-md bg-ink-950/70 border-b border-white/5"
+    >
+      <nav
+        class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
+        aria-label="Navegación principal"
+      >
+        <a href="#top" class="flex items-center gap-2 group">
+          <span
+            class="inline-flex h-7 w-7 items-center justify-center rounded-md border border-white/10 bg-ink-900 text-[12px] font-medium text-ink-200 group-hover:border-accent-500/50 transition"
+            >CS</span
+          >
+          <span class="text-sm font-medium tracking-tight text-ink-200"
+            >Carles Soler</span
+          >
+        </a>
+        <div class="hidden md:flex items-center gap-7 text-sm text-ink-300">
+          <a class="hover:text-ink-100 transition" href="#experiencia"
+            >Experiencia</a
+          >
+          <a class="hover:text-ink-100 transition" href="#logros">Logros</a>
+          <a class="hover:text-ink-100 transition" href="#stack">Stack</a>
+          <a class="hover:text-ink-100 transition" href="#contacto">Contacto</a>
+        </div>
+        <a
+          href="#contacto"
+          class="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-sm text-ink-100 hover:border-accent-500/50 hover:bg-white/[0.05] transition"
+        >
+          Hablemos
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section
+      id="top"
+      class="relative isolate overflow-hidden border-b border-white/5"
+    >
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="spotlight" id="spotlight" aria-hidden="true"></div>
+      <div class="absolute inset-0 bg-dotgrid opacity-60" aria-hidden="true"></div>
+
+      <div
+        class="relative mx-auto max-w-6xl px-6 pt-40 pb-28 sm:pt-44 sm:pb-32"
+      >
+        <div class="reveal flex items-center gap-3 mb-7">
+          <span class="eyebrow"><span class="dot"></span>Disponible para nuevos retos · 2026</span>
+        </div>
+
+        <h1
+          class="reveal text-[44px] sm:text-[64px] md:text-[76px] leading-[1.02] tracking-tightest font-semibold grad-text"
+        >
+          Convierto datos en
+          <br class="hidden sm:block" />
+          decisiones de negocio.
+        </h1>
+
+        <p
+          class="reveal mt-7 max-w-2xl text-[17px] sm:text-lg leading-relaxed text-ink-300"
+        >
+          Soy <span class="text-ink-100">Carles Soler Sanchis</span>, Business /
+          Data Analyst con base en Madrid y Valencia. Gestiono y analizo datos,
+          automatizo operaciones y construyo modelos predictivos que mueven la
+          aguja de las empresas.
+        </p>
+
+        <div class="reveal mt-10 flex flex-wrap items-center gap-3">
+          <a
+            href="#experiencia"
+            class="inline-flex items-center gap-2 rounded-md bg-white text-ink-950 px-4 py-2.5 text-sm font-medium hover:bg-ink-100 transition"
+          >
+            Ver experiencia
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </a>
+          <a
+            href="mailto:carlesoler8@gmail.com"
+            class="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.02] px-4 py-2.5 text-sm text-ink-100 hover:border-accent-500/50 hover:bg-white/[0.05] transition"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="5" width="18" height="14" rx="2" />
+              <path d="m3 7 9 6 9-6" />
+            </svg>
+            carlesoler8@gmail.com
+          </a>
+        </div>
+
+        <!-- Quick metrics -->
+        <dl
+          class="reveal mt-20 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-2 border-t border-white/5 pt-10"
+        >
+          <div>
+            <dt class="eyebrow">SQL · BigQuery</dt>
+            <dd class="mt-2 text-3xl font-semibold tracking-tighter2">
+              Daily driver
+            </dd>
+            <p class="mt-1 text-sm text-ink-400">
+              JOINs complejos sobre facturación, contratos y cursos.
+            </p>
+          </div>
+          <div>
+            <dt class="eyebrow">Automatizaciones</dt>
+            <dd class="mt-2 text-3xl font-semibold tracking-tighter2">
+              +cientos
+            </dd>
+            <p class="mt-1 text-sm text-ink-400">
+              de horas manuales liberadas al equipo de CS en Twenix.
+            </p>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- EXPERIENCIA -->
+    <section
+      id="experiencia"
+      class="relative mx-auto max-w-6xl px-6 py-24 sm:py-32"
+    >
+      <div class="reveal flex items-end justify-between flex-wrap gap-6 mb-14">
+        <div>
+          <p class="eyebrow"><span class="dot"></span>Experiencia</p>
+          <h2
+            class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tighter2 grad-text"
+          >
+            Tres entornos, una misma obsesión:
+            <br class="hidden sm:block" />
+            datos que mueven el negocio.
+          </h2>
+        </div>
+        <p class="max-w-md text-sm text-ink-400">
+          De la gestión pública local a la analítica avanzada en una scale-up
+          EdTech, pasando por soporte técnico en una start-up deportiva.
+        </p>
+      </div>
+
+      <ol class="space-y-5">
+        <!-- TWENIX -->
+        <li class="reveal card rounded-2xl p-7 sm:p-9">
+          <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
+            <div class="flex items-center gap-3">
+              <span
+                class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] font-mono text-xs text-accent-300"
+                >TX</span
+              >
+              <div>
+                <h3 class="text-xl font-semibold tracking-tight text-ink-100">
+                  Twenix
+                  <span class="text-ink-400 font-normal"
+                    >· Global Operations Intern</span
+                  >
+                </h3>
+                <p class="text-sm text-ink-400">
+                  Madrid, España · Scale-up EdTech B2B
+                </p>
+              </div>
+            </div>
+            <span
+              class="font-mono text-xs text-ink-300 border border-white/10 rounded-full px-3 py-1"
+              >10/25 — 04/26</span
+            >
+          </div>
+
+          <p class="text-ink-300 leading-relaxed max-w-3xl mb-7">
+            Departamento de
+            <span class="text-ink-100">Global Operations</span>, equipo
+            transversal responsable de la automatización y optimización de los
+            procesos de la compañía. Trabajé en la intersección de datos,
+            producto y operaciones de revenue.
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-5">
+            <article
+              class="rounded-xl border border-white/[0.06] bg-white/[0.015] p-5"
+            >
+              <p class="eyebrow mb-3">Arquitectura de datos en Airtable</p>
+              <p class="text-ink-200 text-[15px] leading-relaxed">
+                Apoyé la implementación de Airtable como
+                <span class="text-ink-100">base de datos relacional</span>
+                centralizada, con el objetivo de unificar el viaje del cliente
+                en un único entorno trazable,
+                <span class="text-ink-100"
+                  >eliminando silos entre hojas, Trello y Slack</span
+                >.
+              </p>
+            </article>
+            <article
+              class="rounded-xl border border-white/[0.06] bg-white/[0.015] p-5"
+            >
+              <p class="eyebrow mb-3">Automatización de comunicaciones</p>
+              <p class="text-ink-200 text-[15px] leading-relaxed">
+                Diseñé flujos con
+                <span class="text-ink-100">APIs, Zapier y Apps Script</span>
+                para automatizar emails de logros y feedback mensual.
+              </p>
+            </article>
+            <article
+              class="rounded-xl border border-white/[0.06] bg-white/[0.015] p-5"
+            >
+              <p class="eyebrow mb-3">SQL · BigQuery · Looker Studio</p>
+              <p class="text-ink-200 text-[15px] leading-relaxed">
+                Extracción y limpieza de grandes volúmenes con
+                <span class="text-ink-100">SQL avanzado en BigQuery</span> y
+                dashboards dinámicos en Looker Studio. Sustituyeron reportes
+                manuales obsoletos por
+                <span class="text-ink-100"
+                  >métricas accionables en tiempo real</span
+                >
+                para dirección.
+              </p>
+            </article>
+            <article
+              class="rounded-xl border border-white/[0.06] bg-white/[0.015] p-5"
+            >
+              <p class="eyebrow mb-3">Modelo Predictivo</p>
+              <p class="text-ink-200 text-[15px] leading-relaxed">
+                Trato con modelos predictivos para
+                <span class="text-ink-100"
+                  >detección temprana de picos de demanda</span
+                >.
+              </p>
+            </article>
+          </div>
+
+          <div class="mt-7 flex flex-wrap gap-2">
+            <span class="pill">BigQuery</span>
+            <span class="pill">SQL</span>
+            <span class="pill">Python</span>
+            <span class="pill">Looker Studio</span>
+            <span class="pill">Airtable</span>
+            <span class="pill">Zapier</span>
+            <span class="pill">Google Apps Script</span>
+            <span class="pill">APIs / Webhooks</span>
+          </div>
+        </li>
+
+        <!-- LLUTXENT -->
+        <li class="reveal card rounded-2xl p-7 sm:p-9">
+          <div class="flex flex-wrap items-start justify-between gap-4 mb-5">
+            <div class="flex items-center gap-3">
+              <span
+                class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] font-mono text-xs text-accent-300"
+                >AY</span
+              >
+              <div>
+                <h3 class="text-xl font-semibold tracking-tight text-ink-100">
+                  Ayuntamiento de Llutxent
+                  <span class="text-ink-400 font-normal"
+                    >· Plan Innovaterritorial (ADEIT)</span
+                  >
+                </h3>
+                <p class="text-sm text-ink-400">
+                  Valencia, España · Administración pública local
+                </p>
+              </div>
+            </div>
+            <span
+              class="font-mono text-xs text-ink-300 border border-white/10 rounded-full px-3 py-1"
+              >07/25 — 09/25</span
+            >
+          </div>
+          <ul class="grid sm:grid-cols-2 gap-x-8 gap-y-2.5 text-[15px] text-ink-300 leading-relaxed">
+            <li class="flex gap-2.5">
+              <span class="text-accent-500 mt-1.5 leading-none">·</span>
+              Desarrollo de proyectos de innovación local y búsqueda de
+              fuentes de financiación.
+            </li>
+            <li class="flex gap-2.5">
+              <span class="text-accent-500 mt-1.5 leading-none">·</span>
+              Optimización de procesos contables mediante prácticas más
+              eficientes.
+            </li>
+            <li class="flex gap-2.5">
+              <span class="text-accent-500 mt-1.5 leading-none">·</span>
+              Gestión y elaboración de contratos y presupuestos municipales.
+            </li>
+            <li class="flex gap-2.5">
+              <span class="text-accent-500 mt-1.5 leading-none">·</span>
+              Expedición de certificados y trámites en la plataforma Gestiona.
+            </li>
+          </ul>
+        </li>
+
+        <!-- NBN23 -->
+        <li class="reveal card rounded-2xl p-7 sm:p-9">
+          <div class="flex flex-wrap items-start justify-between gap-4 mb-5">
+            <div class="flex items-center gap-3">
+              <span
+                class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] font-mono text-xs text-accent-300"
+                >N23</span
+              >
+              <div>
+                <h3 class="text-xl font-semibold tracking-tight text-ink-100">
+                  NBN23
+                  <span class="text-ink-400 font-normal"
+                    >· Asistencia técnica al cliente</span
+                  >
+                </h3>
+                <p class="text-sm text-ink-400">
+                  Valencia, España · SportsTech
+                </p>
+              </div>
+            </div>
+            <span
+              class="font-mono text-xs text-ink-300 border border-white/10 rounded-full px-3 py-1"
+              >10/24 — 01/25</span
+            >
+          </div>
+          <ul class="grid sm:grid-cols-2 gap-x-8 gap-y-2.5 text-[15px] text-ink-300 leading-relaxed">
+            <li class="flex gap-2.5">
+              <span class="text-accent-500 mt-1.5 leading-none">·</span>
+              Soporte técnico y gestión de incidencias en Zendesk.
+            </li>
+            <li class="flex gap-2.5">
+              <span class="text-accent-500 mt-1.5 leading-none">·</span>
+              Análisis de incidencias recurrentes para refinar los flujos del
+              chatbot y aumentar la resolución automática.
+            </li>
+            <li class="flex gap-2.5">
+              <span class="text-accent-500 mt-1.5 leading-none">·</span>
+              Software testing: detección y reporte de bugs en producto.
+            </li>
+            <li class="flex gap-2.5">
+              <span class="text-accent-500 mt-1.5 leading-none">·</span>
+              Tutoriales y pruebas de certificación para usuarios de la app.
+            </li>
+          </ul>
+        </li>
+      </ol>
+    </section>
+
+    <div class="hairline mx-auto max-w-6xl"></div>
+
+    <!-- LOGROS DESTACADOS -->
+    <section id="logros" class="relative mx-auto max-w-6xl px-6 py-24 sm:py-32">
+      <div class="reveal mb-14">
+        <p class="eyebrow"><span class="dot"></span>Logros destacados</p>
+        <h2
+          class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tighter2 grad-text max-w-3xl"
+        >
+          Lo que ha cambiado cuando he tocado los datos.
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-5">
+        <article class="reveal card rounded-2xl p-7">
+          <div
+            class="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-white/10 bg-white/[0.03] mb-5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-accent-400"
+              aria-hidden="true"
+            >
+              <path d="M3 3v18h18" />
+              <path d="M7 14l4-4 4 3 5-6" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold tracking-tight text-ink-100 mb-2">
+            Decisiones basadas en datos vivos
+          </h3>
+          <p class="text-ink-300 text-[15px] leading-relaxed">
+            Sustituí reportes manuales que envejecían en horas por dashboards en
+            Looker Studio alimentados desde BigQuery con SQL avanzado.
+          </p>
+        </article>
+
+        <article class="reveal card rounded-2xl p-7">
+          <div
+            class="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-white/10 bg-white/[0.03] mb-5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-accent-400"
+              aria-hidden="true"
+            >
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold tracking-tight text-ink-100 mb-2">
+            Automatización end-to-end
+          </h3>
+          <p class="text-ink-300 text-[15px] leading-relaxed">
+            Reemplacé envíos manuales por flujos con APIs, Zapier y
+            <span class="font-mono text-[13px] text-accent-300"
+              >Google Apps Script</span
+            >. Emails personalizados, accionables y trazables; cientos de
+            horas devueltas al equipo de Customer Success.
+          </p>
+        </article>
+
+        <article class="reveal card rounded-2xl p-7">
+          <div
+            class="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-white/10 bg-white/[0.03] mb-5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-accent-400"
+              aria-hidden="true"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="3" />
+              <path d="M9 9h6v6H9z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold tracking-tight text-ink-100 mb-2">
+            Modelos predictivos accionables
+          </h3>
+          <p class="text-ink-300 text-[15px] leading-relaxed">
+            Trabajé con modelos sobre histórico de consumo y estacionalidad
+            para anticipar picos de demanda operativa que sirvieron para
+            dimensionar y prepararse para a ciclos de mayor demanda.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <div class="hairline mx-auto max-w-6xl"></div>
+
+    <!-- STACK -->
+    <section id="stack" class="relative mx-auto max-w-6xl px-6 py-24 sm:py-32">
+      <div class="reveal flex items-end justify-between flex-wrap gap-6 mb-14">
+        <div>
+          <p class="eyebrow"><span class="dot"></span>Stack tecnológico</p>
+          <h2
+            class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tighter2 grad-text max-w-3xl"
+          >
+            Las herramientas con las que entrego resultados.
+          </h2>
+        </div>
+        <p class="max-w-md text-sm text-ink-400">
+          Foco en data, BI y automatización low-code. Versátil con
+          herramientas modernas y rigor con las clásicas.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="reveal card rounded-2xl p-6">
+          <p class="eyebrow mb-4">Análisis &amp; Datos</p>
+          <ul class="space-y-2.5 text-ink-200 text-[15px]">
+            <li>SQL · BigQuery</li>
+            <li>Python</li>
+            <li>R</li>
+            <li>Looker Studio</li>
+          </ul>
+        </div>
+        <div class="reveal card rounded-2xl p-6">
+          <p class="eyebrow mb-4">BI &amp; Hojas</p>
+          <ul class="space-y-2.5 text-ink-200 text-[15px]">
+            <li>Excel avanzado</li>
+            <li>Power Pivot · Power Query</li>
+            <li>Power BI</li>
+            <li>Google Sheets avanzado</li>
+          </ul>
+        </div>
+        <div class="reveal card rounded-2xl p-6">
+          <p class="eyebrow mb-4">Automatización</p>
+          <ul class="space-y-2.5 text-ink-200 text-[15px]">
+            <li>Zapier</li>
+            <li>Google Apps Script</li>
+            <li>Airtable (low-code)</li>
+            <li>APIs &amp; Webhooks</li>
+          </ul>
+        </div>
+        <div class="reveal card rounded-2xl p-6">
+          <p class="eyebrow mb-4">Gestión &amp; Soporte</p>
+          <ul class="space-y-2.5 text-ink-200 text-[15px]">
+            <li>Zendesk</li>
+            <li>Gestiona</li>
+            <li>Slack · Trello</li>
+            <li>Git</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Formación / certs -->
+      <div class="reveal mt-16 grid md:grid-cols-2 gap-5">
+        <div class="card rounded-2xl p-7">
+          <p class="eyebrow mb-5">Formación</p>
+          <ul class="space-y-4 text-[15px] text-ink-200">
+            <li class="flex justify-between gap-4">
+              <span>
+                <span class="text-ink-100"
+                  >Máster en Business Analytics</span
+                >
+                <br />
+                <span class="text-ink-400 text-sm"
+                  >UNIE Universidad — Madrid</span
+                >
+              </span>
+              <span class="font-mono text-xs text-ink-400 shrink-0"
+                >09/25 — Actual</span
+              >
+            </li>
+            <li class="flex justify-between gap-4">
+              <span>
+                <span class="text-ink-100">Grado en Economía</span>
+                <br />
+                <span class="text-ink-400 text-sm"
+                  >Universitat de València · Erasmus JGU Mainz</span
+                >
+              </span>
+              <span class="font-mono text-xs text-ink-400 shrink-0"
+                >09/20 — 06/25</span
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="card rounded-2xl p-7">
+          <p class="eyebrow mb-5">Certificaciones</p>
+          <ul class="space-y-2.5 text-[15px] text-ink-200">
+            <li>· Ciencia de Datos — IE Universidad</li>
+            <li>· IA Responsable y Prompt Engineering — Founderz</li>
+            <li>· Transformación Empresarial con IA — Microsoft</li>
+            <li>· Programación en Python — PUE / Codecademy</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Idiomas -->
+      <div class="reveal mt-5 card rounded-2xl p-7 flex flex-wrap items-center justify-between gap-4">
+        <p class="eyebrow">Idiomas</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="pill">Español · Nativo</span>
+          <span class="pill">Valenciano · Nativo</span>
+          <span class="pill">Inglés · B2</span>
+          <span class="pill">Alemán · A1</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="hairline mx-auto max-w-6xl"></div>
+
+    <!-- CONTACTO -->
+    <section
+      id="contacto"
+      class="relative mx-auto max-w-6xl px-6 py-24 sm:py-32"
+    >
+      <div class="relative reveal card rounded-3xl overflow-hidden p-10 sm:p-14">
+        <div
+          class="absolute -top-40 -right-40 h-[420px] w-[420px] rounded-full blur-3xl opacity-50"
+          style="background: radial-gradient(circle, rgba(124,140,255,0.45), transparent 70%);"
+          aria-hidden="true"
+        ></div>
+        <div class="relative">
+          <p class="eyebrow"><span class="dot"></span>Contacto</p>
+          <h2
+            class="mt-4 text-3xl sm:text-5xl font-semibold tracking-tighter2 grad-text max-w-3xl"
+          >
+            ¿Tienes un problema de datos
+            <br class="hidden sm:block" />
+            esperando un buen analista?
+          </h2>
+          <p class="mt-6 max-w-2xl text-ink-300 text-[16px] leading-relaxed">
+            Estoy abierto a posiciones de
+            <span class="text-ink-100">Operaciones</span>,
+            <span class="text-ink-100">Data Analyst</span> y
+            <span class="text-ink-100">Data Scientist</span>. Si tu equipo busca
+            basar sus decisiones en los datos para generar impacto,
+            ¡contactemos!
+          </p>
+
+          <div class="mt-9 flex flex-wrap gap-3">
+            <a
+              href="mailto:carlesoler8@gmail.com"
+              class="inline-flex items-center gap-2 rounded-md bg-white text-ink-950 px-4 py-2.5 text-sm font-medium hover:bg-ink-100 transition"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="5" width="18" height="14" rx="2" />
+                <path d="m3 7 9 6 9-6" />
+              </svg>
+              carlesoler8@gmail.com
+            </a>
+            <a
+              href="https://www.linkedin.com/in/carles-soler-sanchis/"
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.02] px-4 py-2.5 text-sm text-ink-100 hover:border-accent-500/50 hover:bg-white/[0.05] transition"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8.98h4.55V24H.22V8.98zM8.34 8.98H12.7v2.05h.06c.6-1.14 2.08-2.34 4.28-2.34 4.58 0 5.42 3.01 5.42 6.93V24h-4.55v-6.93c0-1.65-.03-3.78-2.3-3.78-2.3 0-2.66 1.8-2.66 3.66V24H8.34V8.98z"
+                />
+              </svg>
+              linkedin.com/in/carles-soler-sanchis
+            </a>
+            <a
+              href="tel:+34663410521"
+              class="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.02] px-4 py-2.5 text-sm text-ink-100 hover:border-accent-500/50 hover:bg-white/[0.05] transition"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                />
+              </svg>
+              +34 663 410 521
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-white/5">
+      <div
+        class="mx-auto max-w-6xl px-6 py-10 flex flex-wrap items-center justify-between gap-4 text-sm text-ink-400"
+      >
+        <p>© 2026 Carles Soler Sanchis · Madrid</p>
+        <p class="font-mono text-xs">
+          Diseñado y construido a mano · HTML · Tailwind
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Reveal on scroll
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-visible');
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+      // Spotlight following pointer in hero
+      const spot = document.getElementById('spotlight');
+      if (spot) {
+        const hero = spot.parentElement;
+        hero.addEventListener('pointermove', (e) => {
+          const r = hero.getBoundingClientRect();
+          spot.style.setProperty('--mx', e.clientX - r.left + 'px');
+          spot.style.setProperty('--my', e.clientY - r.top + 'px');
+        });
+      }
+
+      // Card hover glow tracking
+      document.querySelectorAll('.card').forEach((card) => {
+        card.addEventListener('pointermove', (e) => {
+          const r = card.getBoundingClientRect();
+          card.style.setProperty('--mx', e.clientX - r.left + 'px');
+          card.style.setProperty('--my', e.clientY - r.top + 'px');
+        });
+      });
+    </script>
+  </body>
+</html>
